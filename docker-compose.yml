@@ -1,7 +1,7 @@
 services:
-  pdftopng:
+  pdf2png:
     build: .
-    container_name: pdftopng
+    container_name: pdf2png
     ports:
       - "8080:8080"
     read_only: false
