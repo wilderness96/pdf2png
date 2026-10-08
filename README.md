@@ -1,6 +1,6 @@
 # pdf2png
 
-A .NET 8 web app that converts PDFs to PNGs for **safe viewing** of
+A .NET 10 web app that converts PDFs to PNGs for **safe viewing** of
 potentially malicious PDFs. The PDF is only ever *parsed and rasterized* —
 Ghostscript runs with `-dSAFER` (blocks file/exec access and script execution
 from PDF content). The UI is a small vanilla-JS single page (drag & drop,
@@ -62,7 +62,7 @@ Open <http://localhost:8080>.
 
 ## Local (no Docker)
 
-Requires the .NET 8 SDK and Ghostscript on PATH.
+Requires the .NET 10 SDK and Ghostscript on PATH.
 
 ```bash
 dotnet run

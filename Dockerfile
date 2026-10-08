@@ -1,5 +1,5 @@
 # ---- build stage ----
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 COPY pdftopng.csproj .
@@ -9,7 +9,7 @@ COPY . .
 RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
 
 # ---- runtime stage ----
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
 
 # Ghostscript does the actual PDF rasterization.
 # It runs with -dSAFER (no exec/file ops from PDF content, no JS/XFA execution).
