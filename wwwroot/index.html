@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PDF → PNG</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+
+  <!-- ============ Upload view ============ -->
+  <div id="upload-view" class="upload-wrap">
+    <div class="card upload-card">
+      <div class="logo">
+        <span class="logo-mark">▦</span> pdf2png
+      </div>
+      <h1>Convert a PDF to safe, viewable images</h1>
+      <p class="sub">
+        Rendered server-side with Ghostscript in a sandbox.
+        Nothing inside the PDF is ever executed — not even JavaScript.
+      </p>
+
+      <div id="dropzone">
+        <input type="file" id="file-input" accept="application/pdf,.pdf" hidden>
+        <div class="dz-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <path d="M14 2v6h6"/>
+            <line x1="12" y1="18" x2="12" y2="12"/>
+            <polyline points="9 15 12 12 15 15"/>
+          </svg>
+        </div>
+        <p class="dz-main"><strong>Drop a PDF here</strong> or <button type="button" id="browse-btn" class="linklike">browse files</button></p>
+        <p id="dz-name" class="dz-name" hidden></p>
+        <p class="hint">Max 50 MB · first 100 pages · files auto-delete after 1 hour</p>
+      </div>
+
+      <div class="convert-row">
+        <label class="field">Resolution
+          <select id="dpi">
+            <option value="100">100 dpi</option>
+            <option value="150" selected>150 dpi</option>
+            <option value="200">200 dpi</option>
+            <option value="300">300 dpi</option>
+          </select>
+        </label>
+        <button id="convert-btn" class="btn primary" disabled>Convert</button>
+      </div>
+
+      <div id="status" class="status" hidden></div>
+    </div>
+    <p class="footnote">For reviewing potentially malicious PDFs · no JavaScript is executed from PDF content</p>
+  </div>
+
+  <!-- ============ Viewer view ============ -->
+  <div id="viewer-view" hidden>
+    <header class="topbar">
+      <span class="brand"><span class="logo-mark">▦</span> pdf2png</span>
+      <span id="job-meta" class="meta"></span>
+      <span class="spacer"></span>
+      <button id="new-btn" class="btn ghost">+ New PDF</button>
+    </header>
+
+    <div id="banners" class="banners"></div>
+
+    <div class="layout">
+      <aside class="thumbs" id="thumbs"></aside>
+      <main class="stage">
+        <div class="stage-toolbar">
+          <button id="prev-btn" class="btn icon" title="Previous page (←)">‹</button>
+          <span id="page-counter" class="counter"></span>
+          <button id="next-btn" class="btn icon" title="Next page (→)">›</button>
+          <span class="spacer"></span>
+          <a id="download-btn" class="btn ghost">Download PNG</a>
+        </div>
+        <div class="page-holder">
+          <img id="page-img" alt="PDF page">
+        </div>
+      </main>
+      <aside class="links-panel">
+        <h2>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          </svg>
+          Links on this page
+        </h2>
+        <div id="links" class="chips"></div>
+      </aside>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
