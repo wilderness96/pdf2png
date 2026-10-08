@@ -367,6 +367,50 @@ a { color: var(--accent); text-decoration: none; }
 }
 .muted { color: var(--text-3); font-size: 13.5px; }
 
+/* ---------- embedded JavaScript panel (right sidebar) ---------- */
+.panel-divider { height: 1px; background: var(--border); margin: 4px 0; }
+.links-panel h2.alert { color: var(--warn-text); }
+.js-badge {
+  flex: none;
+  margin-left: auto;
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  color: var(--warn-text);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 8px;
+  border-radius: 999px;
+}
+.js-panel { display: flex; flex-direction: column; gap: 10px; }
+.js-block {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fbfbfc;
+  padding: 30px 12px 10px;
+}
+.js-copy {
+  position: absolute;
+  top: 8px; right: 8px;
+  padding: 3px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.js-copy:hover { background: #f3f4f6; }
+.js-code {
+  margin: 0;
+  max-height: 320px;
+  overflow: auto;
+  font: 12px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: #374151;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 /* ---------- responsive ---------- */
 @media (max-width: 1180px) {
   .layout { grid-template-columns: 170px minmax(0, 1fr) 260px; }

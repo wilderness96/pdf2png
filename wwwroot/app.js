@@ -16,6 +16,9 @@
   const thumbsEl = $("#thumbs");
   const bannersEl = $("#banners");
   const linksEl = $("#links");
+  const jsPanelEl = $("#js-panel");
+  const jsBadgeEl = $("#js-badge");
+  const jsHeadingEl = $("#js-heading");
   const newBtn = $("#new-btn");
 
   const state = { job: null, idx: 0 };
@@ -114,6 +117,7 @@
     $("#job-meta").textContent = bits.join(" · ");
 
     renderBanners(job);
+    renderJsPanel(job);
 
     thumbsEl.innerHTML = "";
     job.pages.forEach((file, i) => {
@@ -146,10 +150,8 @@
       icon.textContent = "⚠";
       const body = el("div");
       const head = el("div");
-      head.textContent = `JavaScript embedded in this PDF (${job.javascript.length} finding${job.javascript.length === 1 ? "" : "s"}) — parsed and shown below, never executed:`;
-      const pre = el("pre");
-      pre.textContent = job.javascript.join("\n");
-      body.append(head, pre);
+      head.textContent = `JavaScript embedded in this PDF (${job.javascript.length} finding${job.javascript.length === 1 ? "" : "s"}) — shown in the right sidebar, never executed.`;
+      body.appendChild(head);
       b.append(icon, body);
       bannersEl.appendChild(b);
     }
@@ -165,6 +167,41 @@
       body.append(head, pre);
       b.append(icon, body);
       bannersEl.appendChild(b);
+    }
+  }
+
+  function renderJsPanel(job) {
+    jsPanelEl.innerHTML = "";
+    const scripts = (job.javascript || []).filter((s) => s && s.length);
+    if (!scripts.length) {
+      jsBadgeEl.hidden = true;
+      jsHeadingEl.classList.remove("alert");
+      const m = el("span", "muted");
+      m.textContent = "No embedded JavaScript found.";
+      jsPanelEl.appendChild(m);
+      return;
+    }
+    jsBadgeEl.hidden = false;
+    jsBadgeEl.textContent = String(scripts.length);
+    jsHeadingEl.classList.add("alert");
+    for (const s of scripts) {
+      const block = el("div", "js-block");
+      const copy = el("button", "js-copy");
+      copy.type = "button";
+      copy.textContent = "Copy";
+      copy.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(s);
+          copy.textContent = "Copied ✓";
+        } catch (_) {
+          copy.textContent = "Copy failed";
+        }
+        setTimeout(() => (copy.textContent = "Copy"), 1500);
+      });
+      const pre = el("pre", "js-code");
+      pre.textContent = s;
+      block.append(copy, pre);
+      jsPanelEl.appendChild(block);
     }
   }
 
@@ -221,6 +258,9 @@
     state.idx = 0;
     selectedFile = null;
     fileInput.value = "";
+    jsPanelEl.innerHTML = "";
+    jsBadgeEl.hidden = true;
+    jsHeadingEl.classList.remove("alert");
     viewerView.hidden = true;
     uploadView.hidden = false;
     dzName.hidden = true;
